@@ -1,5 +1,7 @@
 package ClueGame;
 
-public class Board {
+import java.util.ArrayList;
 
+public class Board {
+	ArrayList<BoardCell> cells; 
 }
