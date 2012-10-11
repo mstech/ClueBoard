@@ -17,7 +17,14 @@ public class Board {
 			return 0;
 		}
 		
+		public BoardCell getCellAt(int index) {
+			return cells.get(index);
+		}
+		
 		public RoomCell getRoomCellAt(int row, int col) {
+			BoardCell cell = getCellAt(calcIndex(row, col));
+			if (cell.isRoom())
+				return ((RoomCell) cell);
 			return null;
 		}
 
