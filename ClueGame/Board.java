@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import ClueGame.RoomCell.DoorDirection;
 
@@ -15,9 +17,17 @@ public class Board {
 		private int numRows;
 		private int numColumns;
 		
+		private TreeSet<BoardCell> targets;
+		private Map<Integer, LinkedList<Integer>> adjacencies;
+		private LinkedList<BoardCell> seen;
+		
 		public Board() {
 			cells = new ArrayList<BoardCell>();
 			rooms = new HashMap<Character, String>();
+			adjacencies = new HashMap<Integer, LinkedList<Integer>>();
+			targets = new TreeSet<BoardCell>();	        
+	        seen = new LinkedList<BoardCell>();
+	        
 			LoadConfigFiles();
 		}
 		
@@ -110,6 +120,52 @@ public class Board {
 			return null;
 		}
 
+		public void calcAdjacencies() {
+	        for( int r = 0; r < numRows; r++) {
+	            for(int c = 0; c < numColumns; c++) {
+	                int currentIndex = calcIndex(r, c);
+	                LinkedList<Integer> adj = new LinkedList<Integer>();
+
+	                if (r > 0)
+	                    adj.add(calcIndex(r -1, c));
+	                if (c > 0)
+	                    adj.add(calcIndex(r, c -1));
+	                if (r < (numRows -1))
+	                    adj.add(calcIndex(r +1, c));
+	                if (c < (numColumns -1))
+	                    adj.add(calcIndex(r, c +1));
+	               
+	                adjacencies.put(currentIndex, adj);
+	            }
+	        }
+	    }
+		
+	    public void calcTargets(int start, int numSteps) {
+	    	seen.push(getCellAt(start));
+	    	if (numSteps == 0) {
+	    		targets.add(getCellAt(start));
+	    		return;
+	    	}
+	    	LinkedList<Integer> adjList = getAdjList(start);
+	    	
+	    	for (int i : adjList) {
+	    		if (!seen.contains(i)) {
+	    			calcTargets(i, numSteps -1);
+	    			seen.pop();
+	    		}
+	    	}
+	    	
+	    	
+	    }
+	    
+	    public TreeSet<BoardCell> getTargets() {
+	        return targets;       
+	    }
+	   
+	    public LinkedList<Integer> getAdjList(int whichAdjList) {
+	        return adjacencies.get(whichAdjList);      
+	    }
+	    
 		public ArrayList<BoardCell> getCells() {
 			return cells;
 		}
