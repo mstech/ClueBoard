@@ -60,7 +60,6 @@ public class BoardInitTests {
 		room = board.getRoomCellAt(4, 8);
 		assertTrue(room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.DOWN, room.getDoorDirection());
-		// use to test (15, 18) but there is no room at (15, 18).
 		room = board.getRoomCellAt(14, 18);
 		assertTrue(room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.LEFT, room.getDoorDirection());
