@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeSet;
 
 import ClueGame.RoomCell.DoorDirection;
 
@@ -18,7 +18,7 @@ public class Board {
 		private int numRows;
 		private int numColumns;
 		
-		private TreeSet<BoardCell> targets;
+		private Set<BoardCell> targets;
 		private Map<Integer, LinkedList<Integer>> adjacencies;
 		private LinkedList<BoardCell> seen;
 		
@@ -26,7 +26,7 @@ public class Board {
 			cells = new ArrayList<BoardCell>();
 			rooms = new HashMap<Character, String>();
 			adjacencies = new HashMap<Integer, LinkedList<Integer>>();
-			targets = new TreeSet<BoardCell>();	        
+			targets = new HashSet<BoardCell>();	        
 	        seen = new LinkedList<BoardCell>();
 	        
 			LoadConfigFiles();
@@ -161,7 +161,7 @@ public class Board {
 	    public void calcTargets(int start, int numSteps) {
 	    	seen.push(getCellAt(start));
 	    	if (numSteps == 0) {
-	    		targets.add(getCellAt(start));
+	    		targets.add(cells.get(start));
 	    		return;
 	    	}
 	    	LinkedList<Integer> adjList = getAdjList(start);
@@ -176,7 +176,7 @@ public class Board {
 	    	
 	    }
 	    
-	    public TreeSet<BoardCell> getTargets() {
+	    public Set<BoardCell> getTargets() {
 	        return targets;       
 	    }
 	   
