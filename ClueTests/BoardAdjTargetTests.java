@@ -134,10 +134,10 @@ public class BoardAdjTargetTests {
 		Assert.assertTrue(testList.contains(board.calcIndex(16, 17)));
 		Assert.assertEquals(4, testList.size());
 		// Test beside a door direction UP
-		testList = board.getAdjList(board.calcIndex(8, 22));
-		Assert.assertTrue(testList.contains(board.calcIndex(8, 23)));
-		Assert.assertTrue(testList.contains(board.calcIndex(8, 21)));
-		Assert.assertTrue(testList.contains(board.calcIndex(9, 22)));
+		testList = board.getAdjList(board.calcIndex(6, 20));
+		Assert.assertTrue(testList.contains(board.calcIndex(6, 19)));
+		Assert.assertTrue(testList.contains(board.calcIndex(6, 21)));
+		Assert.assertTrue(testList.contains(board.calcIndex(7, 20)));
 		Assert.assertEquals(3, testList.size());
 	}
 

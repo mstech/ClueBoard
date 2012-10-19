@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.TreeSet;
 
 import ClueGame.RoomCell.DoorDirection;
@@ -29,6 +30,7 @@ public class Board {
 	        seen = new LinkedList<BoardCell>();
 	        
 			LoadConfigFiles();
+			calcAdjacencies();
 		}
 		
 		public void LoadConfigFiles() {
@@ -125,16 +127,32 @@ public class Board {
 	            for(int c = 0; c < numColumns; c++) {
 	                int currentIndex = calcIndex(r, c);
 	                LinkedList<Integer> adj = new LinkedList<Integer>();
+	                if(cells.get(currentIndex).isRoom()) {
+	                	if(cells.get(currentIndex).isDoorway()) {
+	                		if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.DOWN) {
+	                			adj.add(calcIndex(r + 1, c));
+	                		}
+	                		else if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.LEFT) {
+	                			adj.add(calcIndex(r, c - 1));
+	                		}
+	                		else if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.RIGHT) {
+	                			adj.add(calcIndex(r, c + 1));
+	                		}
+	                		else if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.UP) {
+	                			adj.add(calcIndex(r - 1, c));
+	                		}
+	                	}
+	                } else {
 
-	                if (r > 0)
-	                    adj.add(calcIndex(r -1, c));
-	                if (c > 0)
-	                    adj.add(calcIndex(r, c -1));
-	                if (r < (numRows -1))
-	                    adj.add(calcIndex(r +1, c));
-	                if (c < (numColumns -1))
-	                    adj.add(calcIndex(r, c +1));
-	               
+	                	if (r > 0 && (cells.get(currentIndex - numColumns).isWalkaway() || cells.get(currentIndex - numColumns).isDoorway()))
+	                		adj.add(calcIndex(r -1, c));
+	                	if (c > 0 && (cells.get(currentIndex - 1).isWalkaway() || cells.get(currentIndex - 1).isDoorway()))
+	                		adj.add(calcIndex(r, c -1));
+	                	if (r < (numRows -1) && (cells.get(currentIndex + numColumns).isWalkaway() || cells.get(currentIndex + numColumns).isDoorway()))
+	                		adj.add(calcIndex(r +1, c));
+	                	if (c < (numColumns -1) && (cells.get(currentIndex + 1).isWalkaway() || cells.get(currentIndex + 1).isDoorway()))
+	                		adj.add(calcIndex(r, c +1));
+	                }
 	                adjacencies.put(currentIndex, adj);
 	            }
 	        }
