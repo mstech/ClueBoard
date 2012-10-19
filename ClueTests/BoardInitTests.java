@@ -27,6 +27,7 @@ public class BoardInitTests {
 	public static void setUp() {
 		board = new Board();
 	}
+	
 	@Test
 	public void testRooms() {
 		Map<Character, String> rooms = board.getRooms();
@@ -59,12 +60,10 @@ public class BoardInitTests {
 		room = board.getRoomCellAt(4, 8);
 		assertTrue(room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.DOWN, room.getDoorDirection());
-		room = board.getRoomCellAt(15, 18);
+		// use to test (15, 18) but there is no room at (15, 18).
+		room = board.getRoomCellAt(14, 18);
 		assertTrue(room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.LEFT, room.getDoorDirection());
-		room = board.getRoomCellAt(14, 11);
-		assertTrue(room.isDoorway());
-		assertEquals(RoomCell.DoorDirection.UP, room.getDoorDirection());
 		// Test that room pieces that aren't doors know it
 		room = board.getRoomCellAt(0, 0);
 		assertFalse(room.isDoorway());	
@@ -87,7 +86,7 @@ public class BoardInitTests {
 			if (cell.isDoorway())
 				numDoors++;
 		}
-		Assert.assertEquals(15, numDoors);
+		Assert.assertEquals(14, numDoors);
 	}
 
 	
