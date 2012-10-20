@@ -181,10 +181,15 @@ public class Board {
 	        }
 	    }
 		
+		public void clearTargets() {
+			targets.clear();
+			seen.clear();
+		}
+		
 	    public void calcTargets(int start, int numSteps) {
 	    	seen.push(getCellAt(start));
 	    	if (numSteps == 0) {
-	    		targets.add(cells.get(start));
+	    		targets.add(getCellAt(start));
 	    		return;
 	    	}
 	    	LinkedList<Integer> adjList = getAdjList(start);
@@ -194,9 +199,7 @@ public class Board {
 	    			calcTargets(i, numSteps -1);
 	    			seen.pop();
 	    		}
-	    	}
-	    	
-	    	
+	    	}	    	
 	    }
 	    
 	    public Set<BoardCell> getTargets() {
