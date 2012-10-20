@@ -181,11 +181,6 @@ public class Board {
 	        }
 	    }
 		
-		public void clearTargets() {
-			targets.clear();
-			seen.clear();
-		}
-		
 	    public void calcTargets(int start, int numSteps) {
 	    	seen.push(start);
 	    	if (numSteps == 0) {
