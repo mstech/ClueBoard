@@ -126,32 +126,55 @@ public class Board {
 	        for( int r = 0; r < numRows; r++) {
 	            for(int c = 0; c < numColumns; c++) {
 	                int currentIndex = calcIndex(r, c);
+	                BoardCell currentCell = getCellAt(currentIndex);
+	                
 	                LinkedList<Integer> adj = new LinkedList<Integer>();
-	                if(cells.get(currentIndex).isRoom()) {
-	                	if(cells.get(currentIndex).isDoorway()) {
-	                		if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.DOWN) {
+	                
+	                if (currentCell.isRoom()) {
+	                	RoomCell currentRoom = (RoomCell) currentCell;
+	                	if (currentRoom.isDoorway()) {
+	                		if (currentRoom.getDoorDirection() == DoorDirection.DOWN)
 	                			adj.add(calcIndex(r + 1, c));
-	                		}
-	                		else if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.LEFT) {
+	                		else if (currentRoom.getDoorDirection() == DoorDirection.LEFT)
 	                			adj.add(calcIndex(r, c - 1));
-	                		}
-	                		else if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.RIGHT) {
+	                		else if (currentRoom.getDoorDirection() == DoorDirection.RIGHT)
 	                			adj.add(calcIndex(r, c + 1));
-	                		}
-	                		else if(((RoomCell) cells.get(currentIndex)).getDoorDirection() == DoorDirection.UP) {
+	                		else if (currentRoom.getDoorDirection() == DoorDirection.UP)
 	                			adj.add(calcIndex(r - 1, c));
-	                		}
-	                	}
+	                	}	                	
 	                } else {
-
-	                	if (r > 0 && (cells.get(currentIndex - numColumns).isWalkaway() || cells.get(currentIndex - numColumns).isDoorway()))
-	                		adj.add(calcIndex(r -1, c));
-	                	if (c > 0 && (cells.get(currentIndex - 1).isWalkaway() || cells.get(currentIndex - 1).isDoorway()))
-	                		adj.add(calcIndex(r, c -1));
-	                	if (r < (numRows -1) && (cells.get(currentIndex + numColumns).isWalkaway() || cells.get(currentIndex + numColumns).isDoorway()))
-	                		adj.add(calcIndex(r +1, c));
-	                	if (c < (numColumns -1) && (cells.get(currentIndex + 1).isWalkaway() || cells.get(currentIndex + 1).isDoorway()))
-	                		adj.add(calcIndex(r, c +1));
+	                	if (r > 0) {
+	                		int northIndex = calcIndex(r -1, c);
+	                		BoardCell northCell = getCellAt(northIndex);
+	                		if (northCell.isWalkaway())
+	                			adj.add(northIndex);
+	                		else if (northCell.isRoom() && ((RoomCell) northCell).getDoorDirection() == DoorDirection.DOWN)
+	                			adj.add(northIndex);
+	                	}
+	                	if (c > 0) {
+	                		int westIndex = calcIndex(r, c -1);
+	                		BoardCell westCell = getCellAt(westIndex);
+	                		if (westCell.isWalkaway())
+	                			adj.add(westIndex);
+	                		else if (westCell.isRoom() && ((RoomCell) westCell).getDoorDirection() == DoorDirection.RIGHT)
+	                			adj.add(westIndex);
+	                	}
+	                	if (r < (numRows -1)) {
+	                		int southIndex = calcIndex(r + 1, c);
+	                		BoardCell southCell = getCellAt(southIndex);
+	                		if (southCell.isWalkaway())
+	                			adj.add(southIndex);
+	                		else if (southCell.isRoom() && ((RoomCell) southCell).getDoorDirection() == DoorDirection.UP)
+	                			adj.add(southIndex);
+	                	}
+	                	if (c < (numColumns -1)) {
+	                		int eastIndex = calcIndex(r, c +1);
+	                		BoardCell eastCell = getCellAt(eastIndex);
+	                		if (eastCell.isWalkaway())
+	                			adj.add(eastIndex);
+	                		else if (eastCell.isRoom() && ((RoomCell) eastCell).getDoorDirection() == DoorDirection.LEFT)
+	                			adj.add(eastIndex);
+	                	}
 	                }
 	                adjacencies.put(currentIndex, adj);
 	            }

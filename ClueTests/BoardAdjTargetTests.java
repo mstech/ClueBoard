@@ -104,6 +104,12 @@ public class BoardAdjTargetTests {
 		
 		// Test on ridge edge of board, next to 1 room piece
 		testList = board.getAdjList(board.calcIndex(14, 22));
+		BoardCell cell = board.getCellAt(board.calcIndex(14, 22));
+		System.out.println("Walkable: " + cell.isWalkaway());
+		System.out.println("Size: " + testList.size());
+		for (Integer i : testList) {
+			System.out.println("Entry in list: " + i);
+		}
 		Assert.assertTrue(testList.contains(board.calcIndex(14, 21)));
 		Assert.assertTrue(testList.contains(board.calcIndex(13, 22)));
 		Assert.assertEquals(2, testList.size());
