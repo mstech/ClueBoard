@@ -20,14 +20,14 @@ public class Board {
 		
 		private Set<BoardCell> targets;
 		private Map<Integer, LinkedList<Integer>> adjacencies;
-		private LinkedList<BoardCell> seen;
+		private LinkedList<Integer> seen;
 		
 		public Board() {
 			cells = new ArrayList<BoardCell>();
 			rooms = new HashMap<Character, String>();
 			adjacencies = new HashMap<Integer, LinkedList<Integer>>();
 			targets = new HashSet<BoardCell>();	        
-	        seen = new LinkedList<BoardCell>();
+	        seen = new LinkedList<Integer>();
 	        
 			LoadConfigFiles();
 			calcAdjacencies();
@@ -187,19 +187,32 @@ public class Board {
 		}
 		
 	    public void calcTargets(int start, int numSteps) {
-	    	seen.push(getCellAt(start));
+	    	seen.push(start);
 	    	if (numSteps == 0) {
 	    		targets.add(getCellAt(start));
+	    		if(cells.get(start).isWalkaway() || cells.get(start).isDoorway()) {
+	    			targets.add(cells.get(start));
+	    			return;
+	    		}
 	    		return;
 	    	}
 	    	LinkedList<Integer> adjList = getAdjList(start);
 	    	
 	    	for (int i : adjList) {
 	    		if (!seen.contains(i)) {
-	    			calcTargets(i, numSteps -1);
+	    			if(cells.get(i).isDoorway()) {
+	    				calcTargets(i, 0);
+	    			} else {
+	    				calcTargets(i, numSteps -1);
+	    			}
 	    			seen.pop();
 	    		}
-	    	}	    	
+	    	}
+	    }
+	    
+	    public void clearTargets() {
+	    	targets = new HashSet<BoardCell>();
+	    	seen = new LinkedList<Integer>();
 	    }
 	    
 	    public Set<BoardCell> getTargets() {

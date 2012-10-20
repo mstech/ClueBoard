@@ -152,7 +152,8 @@ public class BoardAdjTargetTests {
 		Set<BoardCell> targets= board.getTargets();
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(20, 7))));
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(21, 6))));	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(21, 6))));
+		board.clearTargets();
 		
 		board.clearTargets();
 		board.calcTargets(board.calcIndex(14, 0), 1);
@@ -160,7 +161,8 @@ public class BoardAdjTargetTests {
 		Assert.assertEquals(3, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 1))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(13, 0))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 0))));			
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 0))));
+		board.clearTargets();
 	}
 	// Tests of just walkways, 2 steps
 	@Test
@@ -178,6 +180,7 @@ public class BoardAdjTargetTests {
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(19, 7))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(20, 6))));
+		board.clearTargets();
 		
 		board.clearTargets();
 		board.calcTargets(board.calcIndex(14, 0), 2);
@@ -185,7 +188,8 @@ public class BoardAdjTargetTests {
 		Assert.assertEquals(3, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(12, 0))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 2))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 1))));			
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 1))));
+		board.clearTargets();
 	}
 	// Tests of just walkways, 4 steps
 	@Test
@@ -197,6 +201,7 @@ public class BoardAdjTargetTests {
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(19, 7))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(18, 6))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(20, 6))));
+		board.clearTargets();
 		
 		// Includes a path that doesn't have enough length
 		board.clearTargets();
@@ -206,7 +211,8 @@ public class BoardAdjTargetTests {
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 4))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 3))));	
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 2))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 1))));	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 1))));
+		board.clearTargets();
 	}	
 	// Tests of just walkways plus one door, 6 steps
 	@Test
@@ -214,20 +220,21 @@ public class BoardAdjTargetTests {
 		board.clearTargets();
 		board.calcTargets(board.calcIndex(14, 0), 6);
 		Set<BoardCell> targets= board.getTargets();
-		Assert.assertEquals(7, targets.size());
+		Assert.assertEquals(6, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 6))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 5))));	
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 3))));	
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 4))));	
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 1))));	
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 2))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(13, 4))));	
+		board.clearTargets();
 	}	
 	
 	// Test getting into a room
 	@Test 
 	public void testTargetsIntoRoom()
 	{
+		board.clearTargets();
 		// One room is exactly 2 away
 		board.clearTargets();
 		board.calcTargets(board.calcIndex(17, 16), 2);
@@ -243,6 +250,7 @@ public class BoardAdjTargetTests {
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(18, 15))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(16, 17))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(16, 15))));
+		board.clearTargets();
 	}
 	
 	// Test getting into room, doesn't require all steps
@@ -269,12 +277,15 @@ public class BoardAdjTargetTests {
 		// into the rooms
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(11, 6))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(10, 6))));
+		board.clearTargets();
+		
 	}
 
 	// Test getting out of a room
 	@Test
 	public void testRoomExit()
 	{
+		board.clearTargets();
 		// Take one step, essentially just the adj list
 		board.clearTargets();
 		board.calcTargets(board.calcIndex(4, 20), 1);
@@ -290,6 +301,7 @@ public class BoardAdjTargetTests {
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(3, 19))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(5, 19))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(4, 18))));
+		board.clearTargets();
 	}
 
 }
